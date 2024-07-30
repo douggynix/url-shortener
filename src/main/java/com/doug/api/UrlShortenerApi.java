@@ -1,6 +1,6 @@
 package com.doug.api;
 
-import com.doug.dto.UrlDto;
+import com.doug.model.UrlDto;
 import com.doug.service.UrlService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

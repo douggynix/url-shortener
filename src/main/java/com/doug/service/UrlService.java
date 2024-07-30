@@ -1,8 +1,9 @@
 package com.doug.service;
 
 import com.doug.bean.UrlCodec;
-import com.doug.dto.ShortUrlDto;
-import com.doug.dto.UrlDto;
+import com.doug.config.CachingConfig;
+import com.doug.model.ShortUrlDto;
+import com.doug.model.UrlDto;
 import com.doug.model.Url;
 import com.doug.repository.UrlRepository;
 import com.doug.utils.Utils;
@@ -12,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -54,6 +56,7 @@ public class UrlService {
     }
 
 
+    @Cacheable({CachingConfig.CACHE_NAME})
     public Optional<UrlDto> retrieveUrl(String shortUrl){
         if( Objects.isNull(shortUrl) || shortUrl.isBlank()){
             return Optional.empty();
