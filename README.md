@@ -23,3 +23,24 @@ JPA  sql log query is enabled to verify is caching working properly:
 
 ![image](https://github.com/user-attachments/assets/afafb9cc-599e-4017-a63e-92c7181b377b)
 
+### Database Console Viewer
+The H2 Database console viewer is available at this adress
+http://localhost:8080/h2-console/
+
+Look for for this string below for the jdbc url in SpringBoot start logs:
+
+![image](https://github.com/user-attachments/assets/adf28493-fcec-4149-a52c-e50518970baf)
+
+Then replace it with it. This is an important steps for any operating system you're using such as Linux, Unix, MacOS or Windows.
+
+![image](https://github.com/user-attachments/assets/53348f19-3610-43e9-b14f-30a22b978880)
+
+Here is the Database Content if the application ever gets restarted
+
+![image](https://github.com/user-attachments/assets/a0cf8b84-2eb1-4ad5-ad9c-a5aaee1f3c97)
+
+
+
+
+
+
