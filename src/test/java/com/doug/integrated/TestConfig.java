@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Bean;
 @TestConfiguration
 public class TestConfig {
 
-    @Bean
-    UrlCodec urlCodec(){
-        return new UrlCodec();
-    }
+  @Bean
+  UrlCodec urlCodec() {
+    return new UrlCodec();
+  }
 
-    @Bean
-    UrlService urlService(UrlRepository urlRepo, UrlCodec urlCodec){
-        return new UrlService(urlRepo, urlCodec);
-    }
+  @Bean
+  UrlService urlService(UrlRepository urlRepo, UrlCodec urlCodec) {
+    return new UrlService(urlRepo, urlCodec);
+  }
 }

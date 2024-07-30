@@ -1,11 +1,14 @@
 package com.doug.bean;
 
 import com.doug.symbols.SymbolsGenerator;
+import com.doug.utils.Utils;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
+@Slf4j
 @Component("urlCodec")
 public class UrlCodec {
 
@@ -30,25 +33,28 @@ public class UrlCodec {
         StringBuffer buffer = new StringBuffer();
         long currentValue = urlId;
         while ( currentValue > 0 ){
-            Integer decimalBaseVal = (int) currentValue % numBase;
-            buffer.append(symbols.get(decimalBaseVal));
+            Integer symbolIndex = (int) (currentValue % numBase);
+            buffer.append(symbols.get(symbolIndex));
             currentValue = currentValue/numBase;
         }
 
         return buffer.reverse().toString();
     }
 
-    public long decode(String shortUrl){
+    public Optional<Long> decode(String shortUrl){
+        if( !Utils.isAlphanumeric(shortUrl) ){
+            return Optional.empty();
+        }
         long numBase = this.symbols.size();
-        long urlId = 0;
+        Long urlId = 0L;
         int strLen = shortUrl.length();
         for(int i = 0; i< strLen; i++){
             String strValue = shortUrl.substring(i,i+1);
-            int digitValue = symbolsValueMap.get(strValue);
+            long digitValue = symbolsValueMap.get(strValue);
 
-            urlId = digitValue * (long) Math.pow(numBase,strLen-i-1 ) + urlId;
+            urlId = digitValue * (long) Math.pow(numBase,strLen-i-1) + urlId;
         }
 
-        return urlId;
+        return Optional.of(urlId);
     }
 }

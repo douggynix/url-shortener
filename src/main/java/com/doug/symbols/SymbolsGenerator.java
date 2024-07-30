@@ -1,11 +1,10 @@
 package com.doug.symbols;
 
-import lombok.NoArgsConstructor;
-
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class SymbolsGenerator {

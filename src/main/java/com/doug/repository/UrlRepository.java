@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UrlRepository  extends JpaRepository<Url,Long> {
+public interface UrlRepository extends JpaRepository<Url, Long> {
 
-    Optional<Url> findByUrlHash(String urlHash);
+  Optional<Url> findByUrlHash(String urlHash);
 }

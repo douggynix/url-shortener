@@ -1,15 +1,18 @@
 package com.doug.service;
 
 import com.doug.bean.UrlCodec;
+import com.doug.dto.ShortUrlDto;
+import com.doug.dto.UrlDto;
 import com.doug.model.Url;
 import com.doug.repository.UrlRepository;
 import com.doug.utils.Utils;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -24,7 +27,7 @@ public class UrlService {
     }
 
     @Transactional
-    public String createShortUrl(String fullUrl){
+    public ShortUrlDto createShortUrl(String fullUrl){
         final MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
@@ -47,7 +50,25 @@ public class UrlService {
         });
 
         String shortUrl = urlCodec.encode(url.getId() + SEQUENCE);
-        return String.format("http://localhost:8080/%s",shortUrl);
+        return new ShortUrlDto(String.format("http://localhost:8080/%s",shortUrl));
+    }
+
+
+    public Optional<UrlDto> retrieveUrl(String shortUrl){
+        if( Objects.isNull(shortUrl) || shortUrl.isBlank()){
+            return Optional.empty();
+        }
+        final var decodeResult = urlCodec.decode(shortUrl);
+        if(decodeResult.isEmpty()){
+            return Optional.empty();
+        }
+
+
+        final var urlId = decodeResult.get();
+        return urlRepo.findById(urlId - SEQUENCE)
+                .map(url -> new UrlDto(url.getFullUrl()))
+                .or( Optional::empty );
+
     }
 
 
